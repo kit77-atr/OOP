@@ -1,20 +1,16 @@
 import java.util.Scanner;
 
 class Player {
-    // Attribute แบบ private ชื่อ score
     private int score;
 
-    // Constructor รับค่า initialScore มากำหนดค่าเริ่มต้น
     public Player(int initialScore) {
         this.score = initialScore;
     }
 
-    // เมธอด getScore(): return ค่า score
     public int getScore() {
         return this.score;
     }
 
-    // เมธอด setScore(): อัปเดตคะแนนใหม่
     public void setScore(int newScore) {
         this.score = newScore;
     }
@@ -24,21 +20,14 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // รับคะแนนเริ่มต้น (บรรทัดแรก)
-        int initialInput = scanner.nextInt();
+        int initialScore = scanner.nextInt();
+        int updatedScore = scanner.nextInt();
 
-        // รับคะแนนที่อัปเดต (บรรทัดที่สอง)
-        int updatedInput = scanner.nextInt();
+        Player player = new Player(initialScore);
+        player.setScore(updatedScore);
 
-        // สร้าง Object Player ด้วยคะแนนเริ่มต้น
-        Player myPlayer = new Player(initialInput);
+        System.out.println(player.getScore());
 
-        // อัปเดตคะแนนด้วย setScore()
-        myPlayer.setScore(updatedInput);
-
-        // แสดงผลคะแนนล่าสุด
-        System.out.println(myPlayer.getScore());
-        
         scanner.close();
     }
 }
