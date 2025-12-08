@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-// สร้างคลาส Player ตามข้อกำหนด
 class Player {
     // 1. Attribute เป็น private ชื่อ score (int)
     private int score;
@@ -42,4 +41,4 @@ public class Main {
         
         scanner.close();
     }
-}
+}git commit -m "แก้ไขเพิ่มเติม"
