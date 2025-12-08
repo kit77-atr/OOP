@@ -1,0 +1,39 @@
+class Product {
+
+    private String name;              
+    private static int productCount = 0; 
+
+    public Product(String name) {
+        this.name = name;
+        productCount = productCount + 1;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static int getProductCount() {
+        return productCount;
+    }
+}
+
+public class Lab3_04 {
+
+    public static void main(String[] args) {
+
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+
+        int N = scanner.nextInt();
+        scanner.nextLine(); 
+        int i = 0;
+        while (i < N) {
+            String name = scanner.nextLine();
+            Product p = new Product(name);
+            i = i + 1;
+        }
+
+        scanner.close();
+
+        System.out.println(Product.getProductCount());
+    }
+}

@@ -1,0 +1,66 @@
+/**
+ * คลาส Player สำหรับจัดการคะแนนของผู้เล่น
+ * ใช้หลักการ Encapsulation เพื่อปกป้องข้อมูล score
+ */
+class Player {
+    // กำหนดให้ score เป็น private เพื่อป้องกันการเข้าถึงโดยตรงจากภายนอกคลาส
+    // ซึ่งเป็นหลักการสำคัญของ Encapsulation
+    private int score;
+    
+    /**
+     * Constructor สำหรับกำหนดคะแนนเริ่มต้นของผู้เล่น
+     * @param initialScore คะแนนเริ่มต้นที่ต้องการกำหนด
+     */
+    public Player(int initialScore) {
+        // กำหนดค่าเริ่มต้นให้กับ attribute score
+        this.score = initialScore;
+    }
+    
+    /**
+     * เมธอดสำหรับอ่านค่าคะแนนปัจจุบัน
+     * @return คะแนนปัจจุบันของผู้เล่น
+     */
+    public int getScore() {
+        return score;
+    }
+    
+    /**
+     * เมธอดสำหรับอัปเดตค่าคะแนน
+     * @param newScore คะแนนใหม่ที่ต้องการตั้งค่า
+     */
+    public void setScore(int newScore) {
+        // อัปเดตค่า score ด้วยค่าที่รับเข้ามา
+        this.score = newScore;
+    }
+}
+
+/**
+ * คลาส Main สำหรับทดสอบการทำงานของคลาส Player
+ */
+public class Lab3_02 {
+    public static void main(String[] args) {
+        // สร้าง Scanner object สำหรับรับข้อมูลจากผู้ใช้
+        // ใช้ try-with-resources เพื่อให้มั่นใจว่า Scanner จะถูกปิดอย่างถูกต้อง
+        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        
+        // อ่านคะแนนเริ่มต้นจากผู้ใช้
+        System.out.print("ป้อนคะแนนเริ่มต้น: ");
+        int initialScore = scanner.nextInt();
+        
+        // อ่านคะแนนใหม่ที่ต้องการอัปเดตจากผู้ใช้
+        System.out.print("ป้อนคะแนนที่ต้องการอัปเดต: ");
+        int newScore = scanner.nextInt();
+        
+        // สร้างออบเจ็กต์ Player โดยใช้คะแนนเริ่มต้นที่ผู้ใช้ป้อน
+        Player player = new Player(initialScore);
+        
+        // เรียกใช้เมธอด setScore() เพื่ออัปเดตคะแนนเป็นค่าที่ผู้ใช้ป้อนบรรทัดที่สอง
+        player.setScore(newScore);
+        
+        // แสดงผลคะแนนล่าสุดโดยเรียกใช้เมธอด getScore()
+        System.out.println("คะแนนล่าสุด: " + player.getScore());
+        
+        // ปิด Scanner เพื่อปล่อยทรัพยากร
+        scanner.close();
+    }
+}
