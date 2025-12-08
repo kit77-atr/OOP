@@ -1,20 +1,20 @@
 import java.util.Scanner;
 
 class Player {
-    // 1. Attribute เป็น private ชื่อ score (int)
+    // Attribute แบบ private ชื่อ score
     private int score;
 
-    // 2. Constructor รับค่า initialScore มากำหนดค่าเริ่มต้น
+    // Constructor รับค่า initialScore มากำหนดค่าเริ่มต้น
     public Player(int initialScore) {
         this.score = initialScore;
     }
 
-    // 3. เมธอด public int getScore() ทำหน้าที่ return ค่า score
+    // เมธอด getScore(): return ค่า score
     public int getScore() {
         return this.score;
     }
 
-    // 4. เมธอด public void setScore(int newScore) ทำหน้าที่รับค่าใหม่มาอัปเดต
+    // เมธอด setScore(): อัปเดตคะแนนใหม่
     public void setScore(int newScore) {
         this.score = newScore;
     }
@@ -24,21 +24,21 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // รับค่า "คะแนนเริ่มต้น" (บรรทัดแรก)
+        // รับคะแนนเริ่มต้น (บรรทัดแรก)
         int initialInput = scanner.nextInt();
 
-        // รับค่า "คะแนนที่อัปเดต" (บรรทัดที่สอง)
+        // รับคะแนนที่อัปเดต (บรรทัดที่สอง)
         int updatedInput = scanner.nextInt();
 
-        // สร้างออบเจกต์ Player ด้วย "คะแนนเริ่มต้น"
+        // สร้าง Object Player ด้วยคะแนนเริ่มต้น
         Player myPlayer = new Player(initialInput);
 
-        // เรียกใช้เมธอด setScore() เพื่ออัปเดตคะแนนด้วย "คะแนนที่อัปเดต"
+        // อัปเดตคะแนนด้วย setScore()
         myPlayer.setScore(updatedInput);
 
-        // แสดงผลคะแนนล่าสุด โดยเรียกใช้เมธอด getScore()
+        // แสดงผลคะแนนล่าสุด
         System.out.println(myPlayer.getScore());
         
         scanner.close();
     }
-}git commit -m "แก้ไขเพิ่มเติม"
+}
