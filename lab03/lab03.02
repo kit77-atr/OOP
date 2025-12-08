@@ -1,66 +1,45 @@
-/**
- * คลาส Player สำหรับจัดการคะแนนของผู้เล่น
- * ใช้หลักการ Encapsulation เพื่อปกป้องข้อมูล score
- */
+import java.util.Scanner;
+
+// สร้างคลาส Player ตามข้อกำหนด
 class Player {
-    // กำหนดให้ score เป็น private เพื่อป้องกันการเข้าถึงโดยตรงจากภายนอกคลาส
-    // ซึ่งเป็นหลักการสำคัญของ Encapsulation
+    // 1. Attribute เป็น private ชื่อ score (int)
     private int score;
-    
-    /**
-     * Constructor สำหรับกำหนดคะแนนเริ่มต้นของผู้เล่น
-     * @param initialScore คะแนนเริ่มต้นที่ต้องการกำหนด
-     */
+
+    // 2. Constructor รับค่า initialScore มากำหนดค่าเริ่มต้น
     public Player(int initialScore) {
-        // กำหนดค่าเริ่มต้นให้กับ attribute score
         this.score = initialScore;
     }
-    
-    /**
-     * เมธอดสำหรับอ่านค่าคะแนนปัจจุบัน
-     * @return คะแนนปัจจุบันของผู้เล่น
-     */
+
+    // 3. เมธอด public int getScore() ทำหน้าที่ return ค่า score
     public int getScore() {
-        return score;
+        return this.score;
     }
-    
-    /**
-     * เมธอดสำหรับอัปเดตค่าคะแนน
-     * @param newScore คะแนนใหม่ที่ต้องการตั้งค่า
-     */
+
+    // 4. เมธอด public void setScore(int newScore) ทำหน้าที่รับค่าใหม่มาอัปเดต
     public void setScore(int newScore) {
-        // อัปเดตค่า score ด้วยค่าที่รับเข้ามา
         this.score = newScore;
     }
 }
 
-/**
- * คลาส Main สำหรับทดสอบการทำงานของคลาส Player
- */
-public class Lab3_02 {
+public class Main {
     public static void main(String[] args) {
-        // สร้าง Scanner object สำหรับรับข้อมูลจากผู้ใช้
-        // ใช้ try-with-resources เพื่อให้มั่นใจว่า Scanner จะถูกปิดอย่างถูกต้อง
-        java.util.Scanner scanner = new java.util.Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
+
+        // รับค่า "คะแนนเริ่มต้น" (บรรทัดแรก)
+        int initialInput = scanner.nextInt();
+
+        // รับค่า "คะแนนที่อัปเดต" (บรรทัดที่สอง)
+        int updatedInput = scanner.nextInt();
+
+        // สร้างออบเจกต์ Player ด้วย "คะแนนเริ่มต้น"
+        Player myPlayer = new Player(initialInput);
+
+        // เรียกใช้เมธอด setScore() เพื่ออัปเดตคะแนนด้วย "คะแนนที่อัปเดต"
+        myPlayer.setScore(updatedInput);
+
+        // แสดงผลคะแนนล่าสุด โดยเรียกใช้เมธอด getScore()
+        System.out.println(myPlayer.getScore());
         
-        // อ่านคะแนนเริ่มต้นจากผู้ใช้
-        System.out.print("ป้อนคะแนนเริ่มต้น: ");
-        int initialScore = scanner.nextInt();
-        
-        // อ่านคะแนนใหม่ที่ต้องการอัปเดตจากผู้ใช้
-        System.out.print("ป้อนคะแนนที่ต้องการอัปเดต: ");
-        int newScore = scanner.nextInt();
-        
-        // สร้างออบเจ็กต์ Player โดยใช้คะแนนเริ่มต้นที่ผู้ใช้ป้อน
-        Player player = new Player(initialScore);
-        
-        // เรียกใช้เมธอด setScore() เพื่ออัปเดตคะแนนเป็นค่าที่ผู้ใช้ป้อนบรรทัดที่สอง
-        player.setScore(newScore);
-        
-        // แสดงผลคะแนนล่าสุดโดยเรียกใช้เมธอด getScore()
-        System.out.println("คะแนนล่าสุด: " + player.getScore());
-        
-        // ปิด Scanner เพื่อปล่อยทรัพยากร
         scanner.close();
     }
 }
