@@ -1,38 +1,14 @@
 import java.util.Scanner;
 
-// --- ส่วนของโจทย์ที่ 1: Product (Constructor Chaining) ---
-class Product {
-    private String name;
-    private double price;
-
-    // คอนสตรัคเตอร์รับเฉพาะชื่อ และเรียกใช้ตัวที่สอง (Chaining)
-    public Product(String name) {
-        this(name, 0.0); // ส่งค่าไปยังคอนสตรัคเตอร์หลัก
-    }
-
-    // คอนสตรัคเตอร์หลัก
-    public Product(String name, double price) {
-        this.name = name;
-        this.price = price;
-    }
-
-    public void displayInfo() {
-        System.out.println("Product: " + name + ", Price: " + price);
-    }
-}
-
-// --- ส่วนของโจทย์ที่ 2: Player (Constructor Overloading) ---
 class Player {
     private String username;
     private int level;
 
-    // Default Constructor
     public Player() {
         this.username = "Guest";
         this.level = 1;
     }
 
-    // Parameterized Constructor
     public Player(String username, int level) {
         this.username = username;
         this.level = level;
@@ -43,54 +19,24 @@ class Player {
     }
 }
 
-// --- คลาสหลักสำหรับรันโปรแกรม ---
 public class lab04_3 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        
+        int mode = sc.nextInt();
+        sc.nextLine();
 
-        System.out.println("Select Exercise: (1) Product, (2) Player");
-        int exercise = sc.nextInt();
+        Player player;
 
-        if (exercise == 1) {
-            // การทำงานของโจทย์ Product
-            System.out.println("--- Product Mode ---");
-            System.out.print("Enter Mode (1 or 2): ");
-            int mode = sc.nextInt();
-            sc.nextLine(); // clear buffer
-
-            if (mode == 1) {
-                System.out.print("Enter Product Name: ");
-                String name = sc.nextLine();
-                Product p = new Product(name);
-                p.displayInfo();
-            } else if (mode == 2) {
-                System.out.print("Enter Product Name: ");
-                String name = sc.nextLine();
-                System.out.print("Enter Price: ");
-                double price = sc.nextDouble();
-                Product p = new Product(name, price);
-                p.displayInfo();
-            }
-
-        } else if (exercise == 2) {
-            // การทำงานของโจทย์ Player
-            System.out.println("--- Player Mode ---");
-            System.out.print("Enter Mode (1 or 2): ");
-            int mode = sc.nextInt();
-            sc.nextLine(); // clear buffer
-
-            if (mode == 1) {
-                Player p = new Player();
-                p.displayProfile();
-            } else if (mode == 2) {
-                System.out.print("Enter Username: ");
-                String user = sc.nextLine();
-                System.out.print("Enter Level: ");
-                int lvl = sc.nextInt();
-                Player p = new Player(user, lvl);
-                p.displayProfile();
-            }
+        if (mode == 1) {
+            player = new Player();
+        } else {
+            String name = sc.nextLine();
+            int lvl = sc.nextInt();
+            player = new Player(name, lvl);
         }
+
+        player.displayProfile();
         
         sc.close();
     }

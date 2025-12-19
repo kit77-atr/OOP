@@ -1,78 +1,49 @@
 import java.util.Scanner;
 
-// คลาส TimePeriod สำหรับจัดการช่วงเวลา
 class TimePeriod {
-    // Attributes แบบ private ตามโจทย์กำหนด
     private int startHour;
     private int endHour;
 
-    // 1. Default Constructor: เรียกใช้ Constructor ตัวที่ 2 (Chaining)
     public TimePeriod() {
-        this(9, 17); // ส่งค่า 9:00 - 17:00 ไปยัง Main Constructor
+        this(9, 17);
     }
 
-    // 2. Main Constructor: จัดการ Validation และ Data Integrity
     public TimePeriod(int startHour, int endHour) {
-        // Validation 1: ปรับค่าให้อยู่ในช่วง 0-23
-        startHour = clamp(startHour);
-        endHour = clamp(endHour);
+        if (startHour < 0) startHour = 0;
+        else if (startHour > 23) startHour = 23;
 
-        // Validation 2: Data Integrity (ถ้าเริ่ม > สิ้นสุด ให้สลับค่ากัน)
+        if (endHour < 0) endHour = 0;
+        else if (endHour > 23) endHour = 23;
+
         if (startHour > endHour) {
             int temp = startHour;
             startHour = endHour;
             endHour = temp;
         }
 
-        // กำหนดค่าให้กับ Attributes
         this.startHour = startHour;
         this.endHour = endHour;
     }
 
-    // เมธอดช่วยตรวจสอบไม่ให้ค่าเกิน 0-23
-    private int clamp(int hour) {
-        if (hour < 0) return 0;
-        if (hour > 23) return 23;
-        return hour;
-    }
-
-    // เมธอดแสดงผลในรูปแบบ [start]:00 - [end]:00
     public void displayPeriod() {
-        System.out.println(this.startHour + ":00 - " + this.endHour + ":00");
+        System.out.println(startHour + ":00 - " + endHour + ":00");
     }
 }
 
-// คลาสหลักสำหรับรันโปรแกรม
 public class lab04_10 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        
-        System.out.print("กรุณาเลือกโหมด (1 หรือ 2): ");
         int mode = sc.nextInt();
-        
-        TimePeriod tp;
 
         if (mode == 1) {
-            // สร้าง Object โดยใช้ Default Constructor
-            tp = new TimePeriod();
-            System.out.print("ผลลัพธ์ (Default): ");
+            TimePeriod tp = new TimePeriod();
             tp.displayPeriod();
-        } 
-        else if (mode == 2) {
-            // รับค่าจาก User และใช้ Main Constructor
-            System.out.print("ระบุเวลาเริ่มต้น (startHour): ");
+        } else if (mode == 2) {
             int start = sc.nextInt();
-            System.out.print("ระบุเวลาสิ้นสุด (endHour): ");
             int end = sc.nextInt();
-            
-            tp = new TimePeriod(start, end);
-            System.out.print("ผลลัพธ์ (Custom): ");
+            TimePeriod tp = new TimePeriod(start, end);
             tp.displayPeriod();
-        } 
-        else {
-            System.out.println("Error: โหมดไม่ถูกต้อง");
         }
-
         sc.close();
     }
 }

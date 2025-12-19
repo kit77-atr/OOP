@@ -1,18 +1,16 @@
+package Lab;
+
 import java.util.Scanner;
 
-// 1. สร้างคลาส Point ที่เป็น Immutable Object
 class Point {
-    // กฎของ Immutable: Attributes ต้องเป็น private และ final
     private final int x;
     private final int y;
 
-    // 2. Constructor สำหรับกำหนดค่าเพียงครั้งเดียว
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    // 3. Getter Methods สำหรับอ่านค่า
     public int getX() {
         return x;
     }
@@ -21,47 +19,33 @@ class Point {
         return y;
     }
 
-    // 4. เมธอด move: หัวใจของความ Immutable 
-    // แทนที่จะเปลี่ยน x, y ในตัวเดิม เราจะส่งคืน "อ็อบเจกต์ใหม่" กลับไป
     public Point move(int dx, int dy) {
         int newX = this.x + dx;
         int newY = this.y + dy;
-        return new Point(newX, newY); // สร้างและส่งคืนอ็อบเจกต์ใหม่
+        return new Point(newX, newY); 
     }
 
-    // 5. เมธอดแสดงผล
     public void displayInfo() {
         System.out.println("(" + x + ", " + y + ")");
     }
 }
 
-public class lab04_6 {
+public class Lab4_6 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // รับค่าเริ่มต้นและค่าการเคลื่อนที่
-        System.out.print("Enter initial x: ");
         int x = sc.nextInt();
-        System.out.print("Enter initial y: ");
         int y = sc.nextInt();
-        System.out.print("Enter dx: ");
         int dx = sc.nextInt();
-        System.out.print("Enter dy: ");
         int dy = sc.nextInt();
 
-        // ขั้นตอนที่ 1: สร้าง p1 ด้วยพิกัดเริ่มต้น
         Point p1 = new Point(x, y);
-
-        // ขั้นตอนที่ 2: สร้าง p2 โดยการเรียก p1.move(dx, dy)
         Point p2 = p1.move(dx, dy);
-
-        // ขั้นตอนที่ 3: สร้าง p3 โดยการเรียก p2.move(dx, dy) อีกครั้ง
         Point p3 = p2.move(dx, dy);
 
-        // ขั้นตอนที่ 4: แสดงผล
-        System.out.print("p1: "); p1.displayInfo();
-        System.out.print("p2: "); p2.displayInfo();
-        System.out.print("p3: "); p3.displayInfo();
+        p1.displayInfo();
+        p2.displayInfo();
+        p3.displayInfo();
         
         sc.close();
     }

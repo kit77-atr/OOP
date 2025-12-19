@@ -1,17 +1,12 @@
 import java.util.Scanner;
 
-// กำหนดให้เป็น final class เพื่อป้องกันการสืบทอด (หลักการ Immutable)
-final class Configuration {
-    // Attributes ทุกตัวเป็น private และ final เพื่อไม่ให้แก้ไขค่าได้หลังจากสร้าง Object
+class Configuration {
     private final String theme;
     private final int fontSize;
     private final boolean darkMode;
 
-    // 1. คอนสตรัคเตอร์หลัก (Main Constructor)
     public Configuration(String theme, int fontSize, boolean darkMode) {
         this.theme = theme;
-        
-        // Validation: ตรวจสอบและกำหนดค่า fontSize ให้อยู่ระหว่าง 10-20
         if (fontSize < 10) {
             this.fontSize = 10;
         } else if (fontSize > 20) {
@@ -19,24 +14,17 @@ final class Configuration {
         } else {
             this.fontSize = fontSize;
         }
-        
         this.darkMode = darkMode;
     }
 
-    // 2. Merge Constructor
     public Configuration(Configuration base, Configuration user) {
-        // Logic การรวมค่าตามโจทย์:
-        // - theme: ใช้จาก user
-        // - darkMode: ใช้จาก user
-        // - fontSize: ใช้จาก base
         this.theme = user.theme;
         this.darkMode = user.darkMode;
         this.fontSize = base.fontSize;
     }
 
-    // เมธอดแสดงผลข้อมูล
     public void displaySettings() {
-        System.out.println("Theme: " + theme + ", Size: " + fontSize + ", Dark: " + darkMode);
+        System.out.println("Theme: [" + theme + "], Size: [" + fontSize + "], Dark: [" + darkMode + "]");
     }
 }
 
@@ -44,24 +32,18 @@ public class lab04_11 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
-        // รับ Input สำหรับ Base Config (1-3)
-        // System.out.print("Enter Base Theme, Font Size, Dark Mode: ");
         String baseTheme = sc.next();
-        int baseFontSize = sc.nextInt();
-        boolean baseDarkMode = sc.nextBoolean();
-        Configuration baseConfig = new Configuration(baseTheme, baseFontSize, baseDarkMode);
+        int baseSize = sc.nextInt();
+        boolean baseDark = sc.nextBoolean();
+        Configuration baseConfig = new Configuration(baseTheme, baseSize, baseDark);
 
-        // รับ Input สำหรับ User Config (4-6)
-        // System.out.print("Enter User Theme, Font Size, Dark Mode: ");
         String userTheme = sc.next();
-        int userFontSize = sc.nextInt();
-        boolean userDarkMode = sc.nextBoolean();
-        Configuration userConfig = new Configuration(userTheme, userFontSize, userDarkMode);
+        int userSize = sc.nextInt();
+        boolean userDark = sc.nextBoolean();
+        Configuration userConfig = new Configuration(userTheme, userSize, userDark);
 
-        // สร้าง finalConfig โดยใช้ Merge Constructor
         Configuration finalConfig = new Configuration(baseConfig, userConfig);
 
-        // แสดงผลลัพธ์
         finalConfig.displaySettings();
         
         sc.close();

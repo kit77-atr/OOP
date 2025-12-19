@@ -1,22 +1,18 @@
 import java.util.Scanner;
 
-// สร้างคลาส Product ตามเงื่อนไขในโจทย์
 class Product {
     private String name;
     private double price;
 
-    // 1. คอนสตรัคเตอร์รับเฉพาะ "ชื่อ" และใช้ Chaining ไปยังตัวที่ 2
     public Product(String name) {
-        this(name, 0.0); // เรียกคอนสตรัคเตอร์ตัวที่ 2 พร้อมส่งราคาเริ่มต้น 0.0
+        this(name, 0.0);
     }
 
-    // 2. คอนสตรัคเตอร์หลักที่ทำหน้าที่กำหนดค่าให้ Attributes
     public Product(String name, double price) {
         this.name = name;
         this.price = price;
     }
 
-    // เมธอดสำหรับแสดงผลข้อมูลในรูปแบบที่กำหนด
     public void displayInfo() {
         System.out.println("Product: " + name + ", Price: " + price);
     }
@@ -25,25 +21,22 @@ class Product {
 public class lab04_2 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        // รับค่าโหมด (1 หรือ 2)
+        
         int mode = sc.nextInt();
-        sc.nextLine(); // เคลียร์ Buffer หลังจากรับ int
+        sc.nextLine();
 
         if (mode == 1) {
-            // โหมด 1: รับชื่อสินค้าและใช้คอนสตรัคเตอร์ตัวแรก
             String name = sc.nextLine();
             Product p1 = new Product(name);
             p1.displayInfo();
         } 
         else if (mode == 2) {
-            // โหมด 2: รับทั้งชื่อและราคา แล้วใช้คอนสตรัคเตอร์ตัวที่สอง
             String name = sc.nextLine();
             double price = sc.nextDouble();
             Product p2 = new Product(name, price);
             p2.displayInfo();
         }
-
+        
         sc.close();
     }
 }
