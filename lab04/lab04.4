@@ -1,0 +1,31 @@
+import java.util.Scanner;
+
+public class lab04_4 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // รับข้อมูลจากผู้ใช้
+        System.out.print("ป้อนละติจูดเริ่มต้น: ");
+        double startLat = sc.nextDouble();
+        System.out.print("ป้อนลองจิจูดเริ่มต้น: ");
+        double startLon = sc.nextDouble();
+        System.out.print("ป้อนละติจูดใหม่สำหรับ loc1: ");
+        double newLat = sc.nextDouble();
+
+        // 1. สร้างออบเจ็กต์ "ต้นฉบับ" (loc1)
+        Location loc1 = new Location(startLat, startLon);
+
+        // 2. สร้างออบเจ็กต์ "สำเนา" (loc2) โดยใช้ Copy Constructor
+        Location loc2 = new Location(loc1);
+
+        // 3. "แก้ไข" ออบเจ็กต์ต้นฉบับ
+        loc1.setLatitude(newLat);
+
+        // 4. แสดงผลเพื่อพิสูจน์การแยกกันของออบเจ็กต์
+        System.out.println("\n--- ผลลัพธ์ ---");
+        loc1.displayInfo(); // จะแสดงค่าที่ถูกแก้ไข
+        loc2.displayInfo(); // จะยังคงแสดงค่าเริ่มต้นเดิม
+
+        sc.close();
+    }
+}

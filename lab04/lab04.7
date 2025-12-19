@@ -1,0 +1,64 @@
+import java.util.Scanner;
+
+class Resource {
+    private String id;
+
+    // Constructor
+    public Resource(String id) {
+        this.id = id;
+        System.out.println("Resource " + this.id + " created.");
+    }
+
+    // เมธอด finalize จะถูกเรียกโดย GC ก่อนทำลายออบเจ็กต์
+    @Override
+    protected void finalize() throws Throwable {
+        try {
+            System.out.println("Resource " + this.id + " finalized (destroyed).");
+        } finally {
+            super.finalize();
+        }
+    }
+}
+
+public class lab04_7 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // รับค่า id 3 ค่า
+        System.out.print("Enter ID for r1: ");
+        String id1 = sc.nextLine();
+        System.out.print("Enter ID for r2: ");
+        String id2 = sc.nextLine();
+        System.out.print("Enter ID for r3: ");
+        String id3 = sc.nextLine();
+
+        // 1. สร้างออบเจ็กต์ Resource 3 ตัว
+        Resource r1 = new Resource(id1);
+        Resource r2 = new Resource(id2);
+        Resource r3 = new Resource(id3);
+
+        // 2. กำหนดให้ r1 และ r2 เป็น null เพื่อให้เป็น "ขยะ" (Eligible for GC)
+        r1 = null;
+        r2 = null;
+
+        // 3. เรียก System.gc() เพื่อขอให้ GC ทำงาน
+        System.out.println("--- Calling GC for r1 and r2 ---");
+        System.gc();
+
+        // ให้เวลา GC ทำงานเล็กน้อย (เพื่อให้เห็น Output ชัดเจนขึ้น)
+        try { Thread.sleep(100); } catch (InterruptedException e) {}
+
+        // 4. กำหนดให้ r3 เป็น null
+        r3 = null;
+
+        // 5. เรียก System.gc() อีกครั้ง
+        System.out.println("--- Calling GC for r3 ---");
+        System.gc();
+
+        // ให้เวลา GC ทำงานก่อนจบโปรแกรม
+        try { Thread.sleep(100); } catch (InterruptedException e) {}
+        
+        sc.close();
+        System.out.println("Program finished.");
+    }
+}

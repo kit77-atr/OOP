@@ -1,0 +1,80 @@
+import java.util.Scanner;
+
+class Movie {
+    private String title;
+    private String director;
+    private double rating;
+
+    // 1. คอนสตรัคเตอร์รับเฉพาะชื่อเรื่อง
+    public Movie(String title) {
+        // เรียกใช้คอนสตรัคเตอร์ที่ 2 โดยส่ง "Unknown" เป็นชื่อผู้กำกับ
+        this(title, "Unknown");
+    }
+
+    // 2. คอนสตรัคเตอร์รับชื่อเรื่องและผู้กำกับ
+    public Movie(String title, String director) {
+        // เรียกใช้คอนสตรัคเตอร์ที่ 3 โดยส่งคะแนนเริ่มต้นเป็น 0.0
+        this(title, director, 0.0);
+    }
+
+    // 3. คอนสตรัคเตอร์หลัก (Master Constructor)
+    public Movie(String title, String director, double rating) {
+        this.title = title;
+        this.director = director;
+        
+        // Validation: ตรวจสอบคะแนนให้อยู่ในช่วง 0.0 - 10.0
+        if (rating > 10.0) {
+            this.rating = 10.0;
+        } else if (rating < 0.0) {
+            this.rating = 0.0;
+        } else {
+            this.rating = rating;
+        }
+    }
+
+    public void displayDetails() {
+        System.out.println("Title: " + title + ", Director: " + director + ", Rating: " + rating);
+    }
+}
+
+public class lab04_8 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter mode (1, 2, or 3): ");
+        int mode = sc.nextInt();
+        sc.nextLine(); // Clear buffer หลังจากรับเลข int
+
+        Movie movie = null;
+
+        if (mode == 1) {
+            System.out.print("Enter title: ");
+            String title = sc.nextLine();
+            movie = new Movie(title);
+            
+        } else if (mode == 2) {
+            System.out.print("Enter title: ");
+            String title = sc.nextLine();
+            System.out.print("Enter director: ");
+            String director = sc.nextLine();
+            movie = new Movie(title, director);
+            
+        } else if (mode == 3) {
+            System.out.print("Enter title: ");
+            String title = sc.nextLine();
+            System.out.print("Enter director: ");
+            String director = sc.nextLine();
+            System.out.print("Enter rating: ");
+            double rating = sc.nextDouble();
+            movie = new Movie(title, director, rating);
+        }
+
+        if (movie != null) {
+            movie.displayDetails();
+        } else {
+            System.out.println("Invalid mode selected.");
+        }
+
+        sc.close();
+    }
+}

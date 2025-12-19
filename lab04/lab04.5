@@ -1,0 +1,62 @@
+import java.util.Scanner;
+
+// คลาส Color ที่เป็น Immutable Object
+class Color {
+    // 1. Attributes เป็น private และใช้ final เพื่อป้องกันการแก้ไขค่าหลังจากสร้าง Object
+    private final int red;
+    private final int green;
+    private final int blue;
+
+    // 2. Constructor สำหรับกำหนดค่าเพียงครั้งเดียว
+    public Color(int r, int g, int b) {
+        // Validation: ตรวจสอบค่าให้อยู่ในช่วง 0 ถึง 255
+        this.red = validate(r);
+        this.green = validate(g);
+        this.blue = validate(b);
+    }
+
+    // Method ช่วยตรวจสอบเงื่อนไข (Helper Method)
+    private int validate(int value) {
+        if (value < 0) return 0;
+        if (value > 255) return 255;
+        return value;
+    }
+
+    // 3. Getter Methods (ไม่มี Setter Methods ตามกฎของ Immutable Object)
+    public int getRed() {
+        return red;
+    }
+
+    public int getGreen() {
+        return green;
+    }
+
+    public int getBlue() {
+        return blue;
+    }
+
+    // 4. Method สำหรับแสดงผลตามรูปแบบที่กำหนด
+    public void displayRGB() {
+        System.out.println("R=" + red + ", G=" + green + ", B=" + blue);
+    }
+}
+
+// คลาสหลักสำหรับรันโปรแกรม
+public class lab04_5 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // รับค่า R, G, B จำนวน 3 บรรทัด
+        if (sc.hasNextInt()) {
+            int r = sc.nextInt();
+            int g = sc.nextInt();
+            int b = sc.nextInt();
+
+            // สร้าง Object Color และเรียกใช้เมธอดแสดงผล
+            Color myColor = new Color(r, g, b);
+            myColor.displayRGB();
+        }
+
+        sc.close();
+    }
+}

@@ -1,0 +1,97 @@
+import java.util.Scanner;
+
+class ImmutableAccount {
+    // กำหนดให้เป็น final เพื่อไม่ให้เปลี่ยนค่าได้หลังจากกำหนดครั้งแรก
+    private final String accountId;
+    private final double balance;
+
+    // 1. คอนสตรัคเตอร์หลัก
+    public ImmutableAccount(String accountId, double balance) {
+        this.accountId = accountId;
+        // Validation: ถ้า balance ติดลบ ให้กำหนดเป็น 0.0
+        if (balance < 0) {
+            this.balance = 0.0;
+        } else {
+            this.balance = balance;
+        }
+    }
+
+    // 2. Copy Constructor
+    public ImmutableAccount(ImmutableAccount other) {
+        this.accountId = other.accountId;
+        this.balance = other.balance;
+    }
+
+    // Getter Methods
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    // Method แสดงข้อมูล
+    public void displayInfo() {
+        System.out.println("ID: " + accountId + ", Balance: " + balance);
+    }
+
+    // Method ฝากเงิน (คืนค่าเป็น Object ใหม่)
+    public ImmutableAccount deposit(double amount) {
+        if (amount > 0) {
+            return new ImmutableAccount(this.accountId, this.balance + amount);
+        } else {
+            System.out.println("Invalid deposit amount.");
+            return this; // คืนออบเจกต์เดิม
+        }
+    }
+
+    // Method ถอนเงิน (คืนค่าเป็น Object ใหม่)
+    public ImmutableAccount withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            return new ImmutableAccount(this.accountId, this.balance - amount);
+        } else if (amount > balance) {
+            System.out.println("Insufficient funds.");
+            return this;
+        } else {
+            System.out.println("Invalid withdrawal amount.");
+            return this;
+        }
+    }
+}
+
+public class lab04_9 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // รับข้อมูลจากผู้ใช้
+        System.out.print("Enter ID: ");
+        String id = scanner.nextLine();
+        System.out.print("Enter initial balance: ");
+        double initialBalance = scanner.nextDouble();
+        System.out.print("Enter deposit amount: ");
+        double depositAmt = scanner.nextDouble();
+        System.out.print("Enter withdrawal amount: ");
+        double withdrawAmt = scanner.nextDouble();
+
+        System.out.println("\n--- Processing ---");
+
+        // 1. สร้างบัญชีเริ่มต้น acc1
+        ImmutableAccount acc1 = new ImmutableAccount(id, initialBalance);
+
+        // 2. acc2 = acc1.deposit
+        ImmutableAccount acc2 = acc1.deposit(depositAmt);
+
+        // 3. acc3 = acc2.withdraw
+        ImmutableAccount acc3 = acc2.withdraw(withdrawAmt);
+
+        // 4. แสดงผลลัพธ์
+        System.out.print("acc1: ");
+        acc1.displayInfo();
+        
+        System.out.print("acc3: ");
+        acc3.displayInfo();
+
+        scanner.close();
+    }
+}

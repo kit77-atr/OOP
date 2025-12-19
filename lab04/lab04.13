@@ -1,0 +1,82 @@
+class Subscription {
+    // 1. Instance Attributes (Private และ Immutable)
+    private final String planName;
+    private final int durationDays;
+
+    // 2. Static Attribute (Private Policy)
+    private static int maxDuration = 365;
+
+    // คอนสตรัคเตอร์หลัก (Main Constructor)
+    public Subscription(String planName, int durationDays) {
+        this.planName = planName;
+        
+        // Validation logic
+        if (durationDays > maxDuration) {
+            this.durationDays = maxDuration;
+        } else if (durationDays < 0) {
+            this.durationDays = 0;
+        } else {
+            this.durationDays = durationDays;
+        }
+    }
+
+    // Copy Constructor
+    public Subscription(Subscription other) {
+        this.planName = other.planName;
+        this.durationDays = other.durationDays;
+    }
+
+    // Static Setter (กำหนดนโยบายสูงสุด)
+    public static void setMaxDuration(int max) {
+        if (max > 0) {
+            maxDuration = max;
+        } else {
+            System.out.println("Invalid max policy.");
+        }
+    }
+
+    // Immutable Action: เมธอดต่ออายุ (สร้างออบเจ็กต์ใหม่แทนการแก้ไขตัวเดิม)
+    public Subscription extend(int days) {
+        // Validation 1: ตรวจสอบจำนวนวันที่ส่งมา
+        if (days <= 0) {
+            System.out.println("Invalid extension days.");
+            return this; // คืนค่าออบเจ็กต์เดิม
+        }
+
+        // Validation 2: Policy Check
+        int newDays = this.durationDays + days;
+        if (newDays > maxDuration) {
+            System.out.println("Extension failed: Exceeds max policy.");
+            return this; // คืนค่าออบเจ็กต์เดิม
+        }
+
+        // ถ้าผ่านเกณฑ์ ให้คืนค่าออบเจ็กต์ Subscription ตัวใหม่
+        return new Subscription(this.planName, newDays);
+    }
+
+    // แสดงผลข้อมูล
+    public void displayInfo() {
+        System.out.println("Plan: " + planName + ", Days: " + durationDays);
+    }
+}
+
+public class lab04_13 {
+    public static void main(String[] args) {
+        // ตัวอย่างการใช้งานตามเงื่อนไขในโจทย์
+        
+        // 1. รับค่า maxDuration สำหรับตั้งค่าระบบ (สมมติว่าเป็น 500 วัน)
+        Subscription.setMaxDuration(500);
+
+        // 2. สร้าง Subscription เริ่มต้น
+        Subscription sub1 = new Subscription("Premium", 100);
+        sub1.displayInfo();
+
+        // 3. ทดลอง extend (กรณีผ่าน) -> จะได้ออบเจ็กต์ใหม่
+        Subscription sub2 = sub1.extend(50);
+        sub2.displayInfo();
+
+        // 4. ทดลอง extend (กรณีเกิน maxDuration)
+        Subscription sub3 = sub2.extend(1000); 
+        sub3.displayInfo(); // จะแสดงค่าเดิมของ sub2 เพราะต่ออายุไม่สำเร็จ
+    }
+}

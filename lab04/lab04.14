@@ -1,0 +1,74 @@
+import java.util.Scanner;
+
+// คลาส ScoreBoard ตามข้อกำหนดในโจทย์
+class ScoreBoard {
+    private String gameName;
+    private int[] scores;
+
+    // 1. คอนสตรัคเตอร์หลัก: ทำหน้าที่กำหนดค่าแบบ Shallow Copy (reference โดยตรง)
+    public ScoreBoard(String gameName, int[] scores) {
+        this.gameName = gameName;
+        this.scores = scores; 
+    }
+
+    // 2. Copy Constructor: ทำหน้าที่กำหนดค่าแบบ Deep Copy (สร้าง Array ใหม่)
+    public ScoreBoard(ScoreBoard other) {
+        this.gameName = other.gameName;
+        // สร้างอาเรย์ใหม่ที่มีขนาดเท่าเดิมในหน่วยความจำใหม่ (Deep Copy)
+        this.scores = new int[other.scores.length];
+        for (int i = 0; i < other.scores.length; i++) {
+            this.scores[i] = other.scores[i];
+        }
+    }
+
+    // เมธอดสำหรับแสดงผลในรูปแบบ [gameName]: [score1], [score2], [score3]
+    public void displayScores() {
+        System.out.print(gameName + ": ");
+        for (int i = 0; i < scores.length; i++) {
+            System.out.print("[" + scores[i] + "]");
+            if (i < scores.length - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println();
+    }
+}
+
+
+public class lab04_14 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // ส่วนการรับข้อมูล
+        System.out.print("Enter game name: ");
+        String name = scanner.nextLine();
+
+        int[] originalScores = new int[3];
+        for (int i = 0; i < 3; i++) {
+            System.out.print("Enter score " + (i + 1) + ": ");
+            originalScores[i] = scanner.nextInt();
+        }
+
+        // --- เริ่มขั้นตอนตามโจทย์ ---
+        
+        // 1. สร้าง sb1 (Shallow Copy)
+        ScoreBoard sb1 = new ScoreBoard(name, originalScores);
+
+        // 2. สร้าง sb2 (Deep Copy) ผ่าน Copy Constructor
+        ScoreBoard sb2 = new ScoreBoard(sb1);
+
+        // 3. แก้ไขค่าใน Array ต้นฉบับ
+        originalScores[0] = 999;
+
+        // 4. แสดงผลเปรียบเทียบ
+        System.out.println("\n--- ผลลัพธ์หลังแก้ไข originalScores[0] = 999 ---");
+        
+        System.out.print("sb1 ");
+        sb1.displayScores(); 
+
+        System.out.print("sb2 ");
+        sb2.displayScores(); 
+
+        scanner.close();
+    }
+}

@@ -1,0 +1,81 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+class AuditRecord {
+    private final String user;
+    private final String[] logMessages;
+    private static int maxMessages = 3;
+
+    // 1. Simple Constructor (Chaining)
+    public AuditRecord(String user) {
+        this(user, new String[0]);
+    }
+
+    // 2. Main Constructor (Deep Copy & Validation)
+    public AuditRecord(String user, String[] logs) {
+        this.user = user;
+        if (logs.length > maxMessages) {
+            int start = logs.length - maxMessages;
+            this.logMessages = Arrays.copyOfRange(logs, start, logs.length);
+        } else {
+            this.logMessages = Arrays.copyOf(logs, logs.length);
+        }
+    }
+
+    public static void setPolicy(int max) {
+        if (max > 0) {
+            maxMessages = max;
+            System.out.println("Policy set to " + max);
+        } else {
+            System.out.println("Invalid policy.");
+        }
+    }
+
+    public AuditRecord addMessage(String message) {
+        if (this.logMessages.length < maxMessages) {
+            String[] newLogs = Arrays.copyOf(this.logMessages, this.logMessages.length + 1);
+            newLogs[newLogs.length - 1] = message;
+            return new AuditRecord(this.user, newLogs); // คืนค่า Object ใหม่
+        } else {
+            System.out.println("Log is full.");
+            return this; // คืนค่า Object เดิม
+        }
+    }
+
+    public void displayLog() {
+        System.out.print("User: " + user + ", Logs: [" + logMessages.length + "] [");
+        for (int i = 0; i < logMessages.length; i++) {
+            System.out.print(logMessages[i] + (i == logMessages.length - 1 ? "" : ", "));
+        }
+        System.out.println("]");
+    }
+}
+
+public class lab04_15 { 
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // รับค่า Policy
+        int max = sc.nextInt();
+        AuditRecord.setPolicy(max);
+
+        // รับชื่อผู้ใช้
+        String username = sc.next();
+        AuditRecord record = new AuditRecord(username);
+
+        // รับจำนวน Log (N)
+        int n = sc.nextInt();
+        sc.nextLine(); // Clear buffer
+
+        // Loop รับข้อความ Log
+        for (int i = 0; i < n; i++) {
+            String msg = sc.nextLine();
+            record = record.addMessage(msg); // อัปเดต reference ไปยัง object ใหม่
+        }
+
+        // แสดงผล
+        record.displayLog();
+        
+        sc.close();
+    }
+}

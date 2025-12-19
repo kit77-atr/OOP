@@ -1,0 +1,78 @@
+import java.util.Scanner;
+
+// คลาสที่ 1: Schedule (Mutable Component)
+class Schedule {
+    private int hour;
+
+    public void setHour(int newHour) {
+        this.hour = newHour;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+}
+
+// คลาสที่ 2: EmployeeSchedule (Container)
+class EmployeeSchedule {
+    private String name;
+    private Schedule schedule;
+
+    // คอนสตรัคเตอร์หลัก
+    public EmployeeSchedule(String name, Schedule schedule) {
+        this.name = name;
+        this.schedule = schedule; // เป็นการรับ Reference มาโดยตรง (Shallow)
+    }
+
+    // Copy Constructor สำหรับการทำ Deep Copy
+    public EmployeeSchedule(EmployeeSchedule other) {
+        this.name = other.name; // String เป็น Immutable สามารถ copy แบบ shallow ได้
+        
+        // การทำ Deep Copy: สร้างออบเจ็กต์ Schedule ใหม่เพื่อไม่ให้ใช้ร่วมกับตัวต้นฉบับ
+        this.schedule = new Schedule();
+        this.schedule.setHour(other.schedule.getHour());
+    }
+
+    public void displaySchedule() {
+        // แสดงผลในรูปแบบ [name]: [hour]:00
+        System.out.println(this.name + ": " + this.schedule.getHour() + ":00");
+    }
+}
+
+
+public class lab04_12 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // รับข้อมูลจากผู้ใช้
+        System.out.print("ชื่อพนักงาน: ");
+        String inputName = sc.nextLine();
+        
+        System.out.print("ชั่วโมงเริ่มต้น: ");
+        int startHour = sc.nextInt();
+        
+        System.out.print("ชั่วโมงใหม่: ");
+        int newHour = sc.nextInt();
+
+        // 1. สร้างออบเจ็กต์ Schedule (sch1) ด้วยชั่วโมงเริ่มต้น
+        Schedule sch1 = new Schedule();
+        sch1.setHour(startHour);
+
+        // 2. สร้างออบเจ็กต์ EmployeeSchedule ต้นฉบับ (emp1)
+        EmployeeSchedule emp1 = new EmployeeSchedule(inputName, sch1);
+
+        // 3. สร้างออบเจ็กต์ EmployeeSchedule สำเนา (emp2) โดยใช้ Copy Constructor
+        EmployeeSchedule emp2 = new EmployeeSchedule(emp1);
+
+        // 4. "แก้ไข" ชิ้นส่วน Schedule ต้นฉบับ (sch1)
+        sch1.setHour(newHour);
+
+        // 5. แสดงผล emp1 (จะเปลี่ยนตาม sch1 เพราะเป็นการอ้างอิงออบเจ็กต์เดียวกัน)
+        emp1.displaySchedule();
+
+        // 6. แสดงผล emp2 (จะไม่เปลี่ยน เพราะตอน copy ได้สร้างออบเจ็กต์ Schedule ใหม่แยกออกมาแล้ว)
+        emp2.displaySchedule();
+
+        sc.close();
+    }
+}
